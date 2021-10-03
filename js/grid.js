@@ -3,7 +3,6 @@ import { Main } from "./main.js";
 import { aStar } from "./aStar.js";
 
 function Grid(noRows, noColumns, drawState) {
-  this.drawState = drawState;
   let t = this;
   this.noRows = noRows;
   this.noColumns = noColumns;
@@ -11,10 +10,6 @@ function Grid(noRows, noColumns, drawState) {
   this.start = null;
   this.end = null;
   this.walls = new Set();
-  this.visited = new Set();
-  this.findPath = function () {
-    this.path = aStar(t);
-  };
 
   this.passClick = function (col, type) {
     if (col.isStart && type == "start") {
@@ -62,6 +57,15 @@ function Grid(noRows, noColumns, drawState) {
     }
     return temp;
   })(this.noRows, this.noColumns);
+
+  this.elementIndex = function (element) {
+    for (let r of Array(t.elements.length).keys()) {
+      console.log(t.elements[r]);
+      if (t.elements[r].indexOf(element) != -1) {
+        return [r, t.elements[r].indexOf(element)];
+      }
+    }
+  };
 }
 
 export { Grid };

@@ -58,6 +58,11 @@ function Grid(noRows, noColumns, drawState) {
     return temp;
   })(this.noRows, this.noColumns);
 
+  this.getElementByIndex = function (r, c) {
+    console.log("rc", r, c);
+    return t.elements[r][c];
+  };
+
   this.elementIndex = function (element) {
     for (let r of Array(t.elements.length).keys()) {
       console.log(t.elements[r]);
@@ -65,6 +70,33 @@ function Grid(noRows, noColumns, drawState) {
         return [r, t.elements[r].indexOf(element)];
       }
     }
+  };
+
+  this.nbrs = function (element) {
+    let r = this.elementIndex(element)[0];
+    let c = this.elementIndex(element)[1];
+    let ret = [];
+    let indexes = [
+      [r + 1, c],
+      [r - 1, c],
+      [r, c + 1],
+      [r, c - 1],
+    ];
+    console.log(indexes);
+    for (let i of indexes) {
+      console.log("len", t.elements.length);
+
+      if (
+        i[0] >= 0 &&
+        i[0] < t.elements.length &&
+        i[1] >= 0 &&
+        i[1] < t.elements[0].length
+      ) {
+        console.log("test", i[0], i[1]);
+        ret.push(t.getElementByIndex(i[0], i[1]));
+      }
+    }
+    return ret;
   };
 }
 

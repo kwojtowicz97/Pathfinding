@@ -1,5 +1,4 @@
 let backtrack = function (node, start) {
-  console.log("a");
   let path = [];
   while (node.parent != start) {
     path.push(node.parent);

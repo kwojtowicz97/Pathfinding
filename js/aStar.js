@@ -1,25 +1,24 @@
-let backtrack = function (node) {
-  let path = [node];
-  while (node.parent) {
+let backtrack = function (node, start) {
+  console.log("a");
+  let path = [];
+  while (node.parent != start) {
     path.push(node.parent);
     node = node.parent;
   }
+  return path.reverse();
 };
 
 function aStar(grid) {
   let queue = [grid.start];
   while (queue != []) {
-    console.log("queue", queue[-1]);
-    let curr = queue.pop();
-    console.log("curr", curr);
+    let curr = queue.pop(0);
     if (curr == grid.end) {
-      return backtrack(grid.end);
+      return backtrack(grid.end, grid.start);
     }
     grid.visited.add(curr);
-    console.log("visited", grid.visited);
     let nbrs = grid.nbrs(curr);
     for (let n of nbrs) {
-      if (n in grid.visited || n.isWall) {
+      if (grid.visited.has(n) || n.isWall) {
         continue;
       }
       n.parent = curr;

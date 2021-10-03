@@ -57,6 +57,9 @@ var Column = function (grid) {
   };
 
   this.div.addEventListener("click", t.clk);
+  this.setPath = function () {
+    t.div.classList.add("t");
+  };
 
   this.visit = function () {
     this.isVisited = true;

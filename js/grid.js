@@ -10,6 +10,7 @@ function Grid(noRows, noColumns, drawState) {
   this.start = null;
   this.end = null;
   this.walls = new Set();
+  this.visited = new Set();
 
   this.passClick = function (col, type) {
     if (col.isStart && type == "start") {
@@ -59,17 +60,18 @@ function Grid(noRows, noColumns, drawState) {
   })(this.noRows, this.noColumns);
 
   this.getElementByIndex = function (r, c) {
-    console.log("rc", r, c);
     return t.elements[r][c];
   };
 
   this.elementIndex = function (element) {
     for (let r of Array(t.elements.length).keys()) {
-      console.log(t.elements[r]);
       if (t.elements[r].indexOf(element) != -1) {
         return [r, t.elements[r].indexOf(element)];
       }
     }
+  };
+  this.findPath = function () {
+    t.path = aStar(t);
   };
 
   this.nbrs = function (element) {
@@ -82,17 +84,13 @@ function Grid(noRows, noColumns, drawState) {
       [r, c + 1],
       [r, c - 1],
     ];
-    console.log(indexes);
     for (let i of indexes) {
-      console.log("len", t.elements.length);
-
       if (
         i[0] >= 0 &&
         i[0] < t.elements.length &&
         i[1] >= 0 &&
         i[1] < t.elements[0].length
       ) {
-        console.log("test", i[0], i[1]);
         ret.push(t.getElementByIndex(i[0], i[1]));
       }
     }

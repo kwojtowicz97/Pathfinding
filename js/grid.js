@@ -11,6 +11,7 @@ function Grid(noRows, noColumns, drawState) {
   this.end = null;
   this.walls = new Set();
   this.visited = new Set();
+  this.visited_anim = [];
 
   this.passClick = function (col, type) {
     if (col.isStart && type == "start") {

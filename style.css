@@ -39,3 +39,11 @@ body {
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
+.visited {
+  background-color: yellow;
+}
+
+.path {
+  background-color: purple;
+}

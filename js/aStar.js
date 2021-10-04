@@ -8,9 +8,17 @@ let backtrack = function (node, start) {
 };
 
 function aStar(grid) {
-  let queue = [grid.start];
+  var queue = [grid.start];
+  grid.start.distance = 0;
   while (queue != []) {
-    let curr = queue.pop(0);
+    // queue = queue.sort(
+    //   (a, b) => parseFloat(b.distance) - parseFloat(a.distance)
+    // );
+    // let curr = queue.pop();
+    let map = queue.map((x) => x.distance);
+    let curr_idx = map.indexOf(Math.min(...map));
+    let curr = queue[curr_idx];
+    queue = queue.splice(0, curr_idx).concat(queue.splice(curr_idx + 1));
     if (curr == grid.end) {
       return backtrack(grid.end, grid.start);
     }
@@ -21,6 +29,9 @@ function aStar(grid) {
         continue;
       }
       n.parent = curr;
+      let x = grid.elementIndex(n)[0] - grid.elementIndex(grid.end)[0];
+      let y = grid.elementIndex(n)[1] - grid.elementIndex(grid.end)[1];
+      n.distance = Math.sqrt(x * x + y * y);
       queue.push(n);
     }
   }

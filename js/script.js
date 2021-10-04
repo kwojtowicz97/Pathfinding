@@ -7,7 +7,6 @@ document.getElementById("check").onclick = function () {
 };
 document.getElementById("find").onclick = function () {
   grid.findPath();
-  console.log(grid.visited_anim);
   let animation_path = new Animation(grid.path, "path", 100);
 };
 

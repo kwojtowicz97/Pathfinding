@@ -3,7 +3,6 @@ export { Main };
 function Main(noC, noR) {
   let body = document.getElementsByTagName("body");
   var mainDiv = document.createElement("div");
-  console.log(mainDiv);
   body[0].appendChild(mainDiv);
   mainDiv.id = "main";
   mainDiv.style.display = "grid";

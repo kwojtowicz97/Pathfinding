@@ -64,6 +64,18 @@ function Grid(noRows, noColumns, drawState) {
     return t.elements[r][c];
   };
 
+  this.generateMaze = function () {
+    for (let r of Array(t.elements.length).keys()) {
+      for (let c of Array(t.elements[0].length).keys()) {
+        if (c % 2 == 0 || r % 2 == 0) {
+          let col = t.elements[r][c];
+          col.setType("wall");
+          t.walls.add(col);
+        }
+      }
+    }
+  };
+
   this.elementIndex = function (element) {
     for (let r of Array(t.elements.length).keys()) {
       if (t.elements[r].indexOf(element) != -1) {
@@ -76,26 +88,29 @@ function Grid(noRows, noColumns, drawState) {
   };
 
   this.nbrs = function (element) {
-    let r = this.elementIndex(element)[0];
-    let c = this.elementIndex(element)[1];
-    let ret = [];
-    let indexes = [
-      [r + 1, c],
-      [r - 1, c],
-      [r, c + 1],
-      [r, c - 1],
-    ];
-    for (let i of indexes) {
-      if (
-        i[0] >= 0 &&
-        i[0] < t.elements.length &&
-        i[1] >= 0 &&
-        i[1] < t.elements[0].length
-      ) {
-        ret.push(t.getElementByIndex(i[0], i[1]));
+    if (element) {
+      let r = this.elementIndex(element)[0];
+      let c = this.elementIndex(element)[1];
+      let ret = [];
+      let indexes = [
+        [r + 1, c],
+        [r - 1, c],
+        [r, c + 1],
+        [r, c - 1],
+      ];
+      for (let i of indexes) {
+        if (
+          i[0] >= 0 &&
+          i[0] < t.elements.length &&
+          i[1] >= 0 &&
+          i[1] < t.elements[0].length
+        ) {
+          ret.push(t.getElementByIndex(i[0], i[1]));
+        }
       }
+      return ret;
     }
-    return ret;
+    return [];
   };
 }
 

@@ -12,6 +12,18 @@ function Grid(noRows, noColumns, drawState) {
   this.walls = new Set();
   this.visited = new Set();
 
+  this.elements = (function (noRows, noColumns) {
+    let temp = [];
+    for (let r of Array(noRows).keys()) {
+      temp.push([]);
+      for (let c of Array(noColumns).keys()) {
+        let col = new Column(t, drawState);
+        temp[r].push(col);
+      }
+    }
+    return temp;
+  })(this.noRows, this.noColumns);
+
   this.passClick = function (col, type) {
     if (col.isStart && type == "start") {
       t.start = null;
@@ -47,23 +59,11 @@ function Grid(noRows, noColumns, drawState) {
     }
   };
 
-  this.elements = (function (noRows, noColumns) {
-    let temp = [];
-    for (let r of Array(noRows).keys()) {
-      temp.push([]);
-      for (let c of Array(noColumns).keys()) {
-        let col = new Column(t, drawState);
-        temp[r].push(col);
-      }
-    }
-    return temp;
-  })(this.noRows, this.noColumns);
-
   this.getElementByIndex = function (r, c) {
     return t.elements[r][c];
   };
 
-  this.generateMaze = function () {
+  this.generateMazeGrid = function () {
     for (let r of Array(t.elements.length).keys()) {
       for (let c of Array(t.elements[0].length).keys()) {
         if (c % 2 == 0 || r % 2 == 0) {
@@ -116,6 +116,17 @@ function Grid(noRows, noColumns, drawState) {
       return ret;
     }
     return [];
+  };
+
+  this.chooseStartMazeAtRandom = (function () {
+    let r = 1 + 2 * Math.floor((Math.random() * (t.noColumns - 1)) / 2);
+    let c = 1 + 2 * Math.floor((Math.random() * (t.noRows - 1)) / 2);
+    return [r, c];
+  })();
+
+  this.generateMaze = function () {
+    let queue = [];
+    curr = chooseStartMazeAtRandom();
   };
 }
 

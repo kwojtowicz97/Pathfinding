@@ -10,4 +10,4 @@ document.getElementById("find").onclick = function () {
   let animation_path = new Animation(grid.path, "path", 100);
 };
 
-grid.generateMaze();
+grid.generateMazeGrid();

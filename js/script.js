@@ -1,7 +1,7 @@
 import { Grid } from "./grid.js";
 import { Animation } from "./animation.js";
 
-var grid = new Grid(21, 21, false);
+var grid = new Grid(11, 11, false);
 document.getElementById("check").onclick = function () {
   console.log(grid);
 };

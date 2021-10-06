@@ -11,6 +11,7 @@ function Grid(noRows, noColumns, drawState) {
   this.end = null;
   this.walls = new Set();
   this.visited = new Set();
+  this.maze = [];
 
   this.elements = (function (noRows, noColumns) {
     let temp = [];
@@ -118,15 +119,52 @@ function Grid(noRows, noColumns, drawState) {
     return [];
   };
 
-  this.chooseStartMazeAtRandom = (function () {
-    let r = 1 + 2 * Math.floor((Math.random() * (t.noColumns - 1)) / 2);
-    let c = 1 + 2 * Math.floor((Math.random() * (t.noRows - 1)) / 2);
-    return [r, c];
-  })();
-
   this.generateMaze = function () {
+    let visited = new Set();
     let queue = [];
-    curr = chooseStartMazeAtRandom();
+
+    let chooseStartMazeAtRandom = function () {
+      let r = 1 + 2 * Math.floor((Math.random() * (t.noColumns - 1)) / 2);
+      let c = 1 + 2 * Math.floor((Math.random() * (t.noRows - 1)) / 2);
+      return [r, c];
+    };
+
+    let getLegalNeightbourAtRandom = function (elem) {
+      let r = elem[0];
+      let c = elem[1];
+      let nbrs = [
+        [r + 2, c],
+        [r - 2, c],
+        [r, c + 2],
+        [r, c - 2],
+      ];
+      while (nbrs.length > 0) {
+        let n = nbrs[Math.floor(Math.random() * nbrs.length)];
+        if (!t.isIndex(n[0], n[1])) {
+          continue;
+        }
+        if (t.isIndex(n[0], n[1]) && !visited.has(t.elements[n[0][n[1]]])) {
+          return n;
+        }
+        nbrs = nbrs.filter((item) => item !== n);
+      }
+      return false;
+    };
+
+    let curr = chooseStartMazeAtRandom();
+    while (visited.size != (((t.noColumns - 1) / 2) * (t.noRows - 1)) / 2) {
+      let nbr = getLegalNeightbourAtRandom(curr);
+      if (nbr) {
+        t.elements[curr[0]][curr[1]].setType("wall");
+        visited.add(t.elements[curr[0]][curr[1]]);
+        queue.push(curr);
+        curr = nbr;
+      } else {
+        queue.pop();
+        curr = queue.pop();
+      }
+    }
+    console.log(visited);
   };
 }
 

@@ -86,6 +86,12 @@ function Grid(noRows, noColumns, drawState) {
     t.path = aStar(t);
   };
 
+  this.isIndex = function (r, c) {
+    if (t.elements[r] === undefined) return false;
+    if (t.elements[r][c] === undefined) return false;
+    return true;
+  };
+
   this.nbrs = function (element) {
     if (element) {
       let r = this.elementIndex(element)[0];

@@ -120,12 +120,14 @@ function Grid(noRows, noColumns, drawState) {
   };
 
   this.generateMaze = function () {
+    t.generateMazeGrid();
+    let pairs = [];
     let visited = new Set();
     let queue = [];
 
     let chooseStartMazeAtRandom = function () {
-      let r = 1 + 2 * Math.floor((Math.random() * (t.noColumns - 1)) / 2);
-      let c = 1 + 2 * Math.floor((Math.random() * (t.noRows - 1)) / 2);
+      let r = 1 + 2 * Math.floor((Math.random() * (t.noRows - 1)) / 2);
+      let c = 1 + 2 * Math.floor((Math.random() * (t.noColumns - 1)) / 2);
       return [r, c];
     };
 
@@ -141,30 +143,38 @@ function Grid(noRows, noColumns, drawState) {
       while (nbrs.length > 0) {
         let n = nbrs[Math.floor(Math.random() * nbrs.length)];
         if (!t.isIndex(n[0], n[1])) {
+          nbrs = nbrs.filter((item) => item !== n);
           continue;
         }
-        if (t.isIndex(n[0], n[1]) && !visited.has(t.elements[n[0][n[1]]])) {
-          return n;
+        if (visited.has(t.elements[n[0]][n[1]])) {
+          nbrs = nbrs.filter((item) => item !== n);
+          continue;
         }
-        nbrs = nbrs.filter((item) => item !== n);
+        return n;
       }
       return false;
     };
 
     let curr = chooseStartMazeAtRandom();
-    while (visited.size != (((t.noColumns - 1) / 2) * (t.noRows - 1)) / 2) {
+    while (visited.size != (((t.noColumns - 1) / 2) * (t.noRows - 1)) / 2 ) {
       let nbr = getLegalNeightbourAtRandom(curr);
-      if (nbr) {
-        t.elements[curr[0]][curr[1]].setType("wall");
-        visited.add(t.elements[curr[0]][curr[1]]);
-        queue.push(curr);
-        curr = nbr;
+      visited.add(t.elements[curr[0]][curr[1]]);
+      if (nbr != false) {
+        pairs.push([...curr, ...nbr]);
+        t.passClick(
+          t.elements[(curr[0] + nbr[0]) / 2][(curr[1] + nbr[1]) / 2],
+          "wall"
+        );
+        queue.push([...curr]);
+        [curr[0], curr[1]] = [nbr[0], nbr[1]];
       } else {
-        queue.pop();
-        curr = queue.pop();
+        for (let h of queue) {
+        }
+        curr = [...queue.pop()];
       }
     }
-    console.log(visited);
+    for (let h of queue) {
+    }
   };
 }
 

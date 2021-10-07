@@ -9,8 +9,8 @@ let backtrack = function (node, start) {
 
 function aStar(grid) {
   var queue = [grid.start];
-  grid.start.distance = 0;
   while (queue != []) {
+    console.log(queue);
     // queue = queue.sort(
     //   (a, b) => parseFloat(b.distance) - parseFloat(a.distance)
     // );
@@ -25,6 +25,7 @@ function aStar(grid) {
     grid.visited.add(curr);
     let nbrs = grid.nbrs(curr);
     for (let n of nbrs) {
+      console.log(grid.visited.has(n));
       if (grid.visited.has(n) || n.isWall) {
         continue;
       }

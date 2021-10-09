@@ -8,7 +8,7 @@ var Column = function (grid) {
   this.isVisited = false;
   this.div = document.createElement("div");
   this.div.classList.add("column");
-  document.getElementById("main").appendChild(this.div);
+  grid.fragment.appendChild(this.div);
   this.clearStart = function () {
     if (t.isStart) {
       t.isStart = false;

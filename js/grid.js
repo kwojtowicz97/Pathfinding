@@ -3,6 +3,7 @@ import { Main } from "./main.js";
 import { aStar } from "./aStar.js";
 
 function Grid(noRows, noColumns, drawState) {
+  this.fragment = document.createDocumentFragment();
   let t = this;
   this.noRows = noRows;
   this.noColumns = noColumns;
@@ -22,6 +23,7 @@ function Grid(noRows, noColumns, drawState) {
         temp[r].push(col);
       }
     }
+    document.getElementById("main").appendChild(t.fragment);
     return temp;
   })(this.noRows, this.noColumns);
 
@@ -156,7 +158,7 @@ function Grid(noRows, noColumns, drawState) {
     };
 
     let curr = chooseStartMazeAtRandom();
-    while (visited.size != (((t.noColumns - 1) / 2) * (t.noRows - 1)) / 2 ) {
+    while (visited.size != (((t.noColumns - 1) / 2) * (t.noRows - 1)) / 2) {
       let nbr = getLegalNeightbourAtRandom(curr);
       visited.add(t.elements[curr[0]][curr[1]]);
       if (nbr != false) {

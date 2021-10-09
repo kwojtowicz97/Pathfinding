@@ -178,6 +178,14 @@ function Grid(noRows, noColumns, drawState) {
     for (let h of queue) {
     }
   };
+
+  this.delete = function () {
+    for (let r of t.elements) {
+      for (let c of r) {
+        c.div.parentNode.removeChild(c.div);
+      }
+    }
+  };
 }
 
 export { Grid };

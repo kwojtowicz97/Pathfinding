@@ -40,7 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: -5px 0px 5px 0px black;
+  border-left: 2px solid black;
 }
 
 .visited {
